@@ -64,6 +64,7 @@ Fur shader
 Toon shader
 CRT shader
 Pixelated shader
+Dithering effect
 
 
 ## Super Plumber
@@ -73,6 +74,10 @@ Provide script for jump trajectories
 Provide first level of super mario bros
 Provide script for activating enemies when player is in view
 Let student implement interactions between player and enemies
+
+
+## Car physics
+Implement car physics in Godot?
 
 
 ## Adventure

@@ -32,39 +32,91 @@ const BRACE       := Vector2i(2, 2)
 
 
 # rotation possible pour une tuile droite
-const ROT_LINE_0 := 0
-const ROT_LINE_1 := TileSetAtlasSource.TRANSFORM_FLIP_H
-const ROT_LINE_2 := TileSetAtlasSource.TRANSFORM_FLIP_V
-const ROT_LINE_3 := TileSetAtlasSource.TRANSFORM_FLIP_H | TileSetAtlasSource.TRANSFORM_FLIP_V
+const ROT_BEND_0 := 0
+const ROT_BEND_1 :=  TileSetAtlasSource.TRANSFORM_FLIP_H
+const ROT_BEND_2 := TileSetAtlasSource.TRANSFORM_FLIP_V
+const ROT_BEND_3 := TileSetAtlasSource.TRANSFORM_FLIP_H | TileSetAtlasSource.TRANSFORM_FLIP_V
+
 
 # rotation possible pour une tuile courbee
-const ROT_BEND_0 := 0
-const ROT_BEND_1 := TileSetAtlasSource.TRANSFORM_TRANSPOSE
-const ROT_BEND_2 := TileSetAtlasSource.TRANSFORM_FLIP_H
-const ROT_BEND_3 := TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_V
+const ROT_LINE_0 := 0
+const ROT_LINE_1 := TileSetAtlasSource.TRANSFORM_TRANSPOSE
+const ROT_LINE_2 := TileSetAtlasSource.TRANSFORM_FLIP_H
+const ROT_LINE_3 := TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_V
 
 
 # Nettoie l'ecran
 func clear() -> void:
-	self.canvas1.clear()
-	self.canvas2.clear()
+	canvas1.clear()
+	canvas2.clear()
 
 
 # Dessine un serpent dans la grille
 func draw_snake(chain: Array[Vector2i]) -> void:
-	if chain.size() < 2:
-		for coords in chain:
-			self._draw_tile(coords, CROSS, 0)
+	# On ejecte les cas tordus qui nous embetent
+	if chain.is_empty():
+		printerr("Snake is empty, there is nothing to display.")
+	elif chain.size() == 1:
+		_draw_tile(chain[0], CROSS, 0)
 	else:
-		pass
+		# Ici nous sommes garanti d'avoir une chaine avec au moins deux elements.
+		# Nous avons simplement besoin de traiter la tete et la queue distinctement du reste du corps.
+		for index in range(1, chain.size() - 2):
+			var tile := _adjacent_tile(chain[index - 1], chain[index], chain[index + 1])
 
 
 # Dessine une pomme dans la grille
 func draw_apple(coords: Vector2i) -> void:
-	self._draw_tile(coords, APPLE, 0)
+	_draw_tile(coords, APPLE, 0)
 
 
-# Dessine une tile dans les deux tilemap
+# Dessine une tuile dans les deux tilemap
 func _draw_tile(coords: Vector2i, tile: Vector2i, alternative: int) -> void:
-	self.canvas1.set_cell(coords, 0, tile, alternative)
-	self.canvas2.set_cell(coords, 0, tile, alternative)
+	canvas1.set_cell(coords, 0, tile, alternative)
+	canvas2.set_cell(coords, 0, tile, alternative)
+
+
+# Identifiants des tuiles composant le cors du serpent
+enum BodyTile { NONE = 0, LINE = 1, BEND = 2 }
+
+
+# Determine la tuile a utiliser
+func _adjacent_tile(previous: Vector2i, current: Vector2i, next: Vector2i) -> Vector2i:
+	# Determine l'orientation du corps du serpent d'element a element
+	var orient1 := _orientation(current - previous)
+	var orient2 := _orientation(next    - current)
+	# TODO...
+	match orient1:
+		Orient.EAST:
+			match orient2:
+				Orient.WEST : return Vector2i(BodyTile.LINE, ROT_LINE_0)
+				Orient.NORTH: return Vector2i(BodyTile.BEND, ROT_BEND_0)
+				Orient.SOUTH: return Vector2i(BodyTile.BEND, ROT_BEND_0)
+		Orient.NORTH:
+			match orient2:
+				Orient.SOUTH: return Vector2i(BodyTile.LINE, ROT_LINE_0)
+				Orient.EAST : return Vector2i(BodyTile.BEND, ROT_BEND_0)
+				Orient.WEST : return Vector2i(BodyTile.BEND, ROT_BEND_0)
+		Orient.WEST:
+			match orient2:
+				Orient.EAST : return Vector2i(BodyTile.LINE, ROT_LINE_0)
+				Orient.NORTH: return Vector2i(BodyTile.BEND, ROT_BEND_0)
+				Orient.SOUTH: return Vector2i(BodyTile.BEND, ROT_BEND_0)
+		Orient.SOUTH:
+			match orient2:
+				Orient.NORTH: return Vector2i(BodyTile.LINE, ROT_LINE_0)
+				Orient.EAST : return Vector2i(BodyTile.BEND, ROT_BEND_0)
+				Orient.WEST : return Vector2i(BodyTile.BEND, ROT_BEND_0)
+	return Vector2i.ZERO
+
+
+# Orientation possibles
+enum Orient { EAST = 0, NORTH = 1, WEST = 2, SOUTH = 3, INVALID = -1 }
+
+# Determine l'orientation d'un vecteur selon les quatres directions possibles
+func _orientation(direction: Vector2i) -> Orient:
+	if   direction == Vector2i.LEFT : return Orient.EAST
+	elif direction == Vector2i.UP   : return Orient.NORTH
+	elif direction == Vector2i.RIGHT: return Orient.WEST
+	elif direction == Vector2i.DOWN : return Orient.SOUTH
+	else: return Orient.INVALID

@@ -1,4 +1,4 @@
-extends Node
+class_name SnakeCanvas extends Node
 
 #region PROPERTIES
 
@@ -6,7 +6,7 @@ extends Node
 @export
 var play_area := Rect2i(0, 0, 23, 12)
 
-# List des calques sur lequels ecrire les tuiles
+# Liste des calques sur lequels écrire les tuiles
 @export
 var canvas_layers: Array[TileMapLayer] = []
 
@@ -15,7 +15,7 @@ var canvas_layers: Array[TileMapLayer] = []
 
 #region PUBLIC METHODS
 
-# Nettoie l'ecran
+# Nettoie l'écran
 func clear() -> void:
 	for layer in canvas_layers:
 		layer.clear()
@@ -26,7 +26,7 @@ func draw_apple(coords: Vector2i) -> void:
 	_draw_tile(coords, APPLE, 0)
 
 
-# Dessine une boule d'epines dans la grille
+# Dessine une boule d'épines dans la grille
 func draw_spike(coords: Vector2i) -> void:
 	_draw_tile(coords, SPIKE, 0)
 
@@ -38,15 +38,15 @@ func draw_heart(coords: Vector2i) -> void:
 
 # Dessine un serpent dans la grille
 func draw_snake(chain: Array[Vector2i]) -> void:
-	# Pour dessiner un serpent, on parcours la chaine du debut a la fin en 
-	# comparant chaque maillon avec ses voisins. Cela permet de verifier si un 
-	# maillon doit etre droit ou coube et son orientation. La tete et la queue 
-	# sont deux cas particuliers qui sont traite independament.
+	# Pour dessiner un serpent, on parcours la chaîne du début à la fin en 
+	# comparant chaque maillon avec ses voisins. Cela permet de vérifier si un 
+	# maillon doit être droit ou courbé et son orientation. La tête et la queue 
+	# sont deux cas particuliers qui sont traîté indépendament.
 
-	# longueur de la chaine
+	# longueur de la chaîne
 	var length := chain.size()
 
-	# On ejecte les cas tordus qui nous embetent
+	# On éjecte les cas tordus qui nous embêtent
 	if chain.is_empty():
 		printerr("Snake is empty, there is nothing to display.")
 	elif length == 1:
@@ -56,8 +56,8 @@ func draw_snake(chain: Array[Vector2i]) -> void:
 		var tile_pos  : Vector2i
 		var tile_data : Vector3i
 
-		# Ici nous sommes garanti d'avoir une chaine avec au moins deux elements.
-		# Nous avons simplement besoin de traiter la tete et la queue distinctement du reste du corps.
+		# Ici nous sommes garanti d'avoir une chaîne avec au moins deux élements.
+		# Nous avons simplement besoin de traîter la tête et la queue distinctement du reste du corps.
 		tile_pos  = chain[0]
 		tile_data = _pick_snake_tile_end(tile_pos, chain[1], SNAKE_HEAD)
 		_draw_tile2(tile_pos, tile_data)
@@ -79,18 +79,18 @@ func draw_border() -> void:
 	# - deux lignes verticales
 	# - quatres coins
 
-	# On recupere les limites de la zone de jeu
+	# On récupère les limites de la zone de jeu
 	var x0 := play_area.position.x
 	var x1 := play_area.end.x
 	var y0 := play_area.position.y
 	var y1 := play_area.end.y
 	
-	# On trace les deux lignes horizontales en meme temps
+	# On trace les deux lignes horizontales en même temps
 	for x in range(x0 + 1, x1 - 1):
 		_draw_tile(Vector2i(x, y0), BORDER_LINE, RotLine.H)
 		_draw_tile(Vector2i(x, y1), BORDER_LINE, RotLine.H)
 
-	# On trace les deux lignes verticales en meme temps
+	# On trace les deux lignes verticales en même temps
 	for y in range(y0 + 1, y1 - 1):
 		_draw_tile(Vector2i(x0, y), BORDER_LINE, RotLine.V)
 		_draw_tile(Vector2i(x1, y), BORDER_LINE, RotLine.V)
@@ -106,20 +106,20 @@ func draw_border() -> void:
 
 #region PRIVATE METHODS
 
-# Dessine une tuile dans les deux tilemap
+# Dessine une tuile dans les deux tilemaps
 func _draw_tile(coords: Vector2i, tile: Vector2i, alternative: int) -> void:
 	for layer in canvas_layers:
 		layer.set_cell(coords, 0, tile, alternative)
 
 
-# Dessine une tuile dans les deux tilemap
+# Dessine une tuile dans les deux tilemaps
 func _draw_tile2(coords: Vector2i, tile: Vector3i) -> void:
 	var pos := Vector2i(tile.x, tile.y)
 	for layer in canvas_layers:
 		layer.set_cell(coords, 0, pos, tile.z)
 
 
-# Determine la tuile a utiliser
+# Détermine la tuile a utiliser
 static func _pick_snake_tile_end(previous: Vector2i, next: Vector2i, tile: Vector2i) -> Vector3i:
 	match _orientation(next - previous):
 		Orient.EAST : return Vector3i(tile.x, tile.y, RotEnd.EAST )
@@ -129,9 +129,9 @@ static func _pick_snake_tile_end(previous: Vector2i, next: Vector2i, tile: Vecto
 	return Vector3i(CROSS.x, CROSS.y, 0)
 
 
-# Determine la tuile a utiliser
+# Détermine la tuile a utiliser
 static func _pick_snake_tile_middle(previous: Vector2i, current: Vector2i, next: Vector2i) -> Vector3i:
-	# Determine l'orientation du corps du serpent d'element a element
+	# Détermine l'orientation du corps du serpent d'élement a élement
 	var orient1 := _orientation(current - previous)
 	var orient2 := _orientation(current - next)
 	match orient1:
@@ -158,7 +158,7 @@ static func _pick_snake_tile_middle(previous: Vector2i, current: Vector2i, next:
 	return Vector3i(CROSS.x, CROSS.y, 0)
 
 
-# Determine l'orientation d'un vecteur selon les quatres directions possibles
+# Détermine l'orientation d'un vecteur selon les quatres directions possibles
 static func _orientation(direction: Vector2i) -> Orient:
 	if   direction == Vector2i.LEFT : return Orient.EAST
 	elif direction == Vector2i.UP   : return Orient.NORTH
@@ -193,7 +193,7 @@ enum RotEnd {
 	SOUTH = TileSetAtlasSource.TRANSFORM_FLIP_V,
 }
 
-# rotations possibles pour une tuile courbee
+# rotations possibles pour une tuile courbée
 enum RotBend {
 	NE = 0,
 	NW = TileSetAtlasSource.TRANSFORM_FLIP_H,

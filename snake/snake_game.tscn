@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdkefwfbqjo6a"]
+
+[ext_resource type="Script" uid="uid://dhno3v7cagacx" path="res://src/game/snake_game.gd" id="1_0lev8"]
+[ext_resource type="PackedScene" uid="uid://w20jnr3tbfbe" path="res://assets/snake_canvas.tscn" id="2_74sqb"]
+
+[node name="SnakeGame" type="Node"]
+script = ExtResource("1_0lev8")
+
+[node name="SnakeCanvas" parent="." instance=ExtResource("2_74sqb")]
+
+[node name="TickRate" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true

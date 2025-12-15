@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=4 uid="uid://dbo1u25iysvk4"]
+[gd_scene load_steps=11 format=4 uid="uid://w20jnr3tbfbe"]
 
-[ext_resource type="Shader" uid="uid://cpbl7p04e2uib" path="res://assets/colorize.gdshader" id="1_1n30v"]
-[ext_resource type="Script" uid="uid://cwpmv8oa2t876" path="res://canvas.gd" id="1_03na7"]
-[ext_resource type="TileSet" uid="uid://c8178sxe31um0" path="res://assets/tileset.tres" id="1_7yhko"]
-[ext_resource type="Shader" uid="uid://vhjgi6hq76ma" path="res://assets/blur.gdshader" id="3_35kre"]
+[ext_resource type="Script" uid="uid://bgkpqp8brt3ea" path="res://src/core/snake_canvas.gd" id="1_0sa11"]
+[ext_resource type="Shader" uid="uid://cpbl7p04e2uib" path="res://shader/colorize.gdshader" id="2_eg20l"]
+[ext_resource type="TileSet" uid="uid://c8178sxe31um0" path="res://assets/tileset.tres" id="3_21pye"]
+[ext_resource type="Shader" uid="uid://vhjgi6hq76ma" path="res://shader/blur.gdshader" id="4_eeg3h"]
+[ext_resource type="Script" uid="uid://3d6w7314eob0" path="res://src/core/shadow_effect.gd" id="5_uvag5"]
 
 [sub_resource type="Gradient" id="Gradient_35kre"]
 colors = PackedColorArray(0.31121767, 0.34710258, 0.2457757, 1, 1, 1, 0.88235295, 1)
@@ -13,63 +14,40 @@ gradient = SubResource("Gradient_35kre")
 fill_from = Vector2(1, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1n30v"]
-shader = ExtResource("1_1n30v")
+shader = ExtResource("2_eg20l")
 shader_parameter/color = Color(0, 0, 0, 0.4862745)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_03na7"]
-shader = ExtResource("3_35kre")
+shader = ExtResource("4_eeg3h")
 shader_parameter/blur_amount = 1.1970000568575
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_35kre"]
-shader = ExtResource("1_1n30v")
+shader = ExtResource("2_eg20l")
 shader_parameter/color = Color(0, 0, 0, 1)
 
-[sub_resource type="GDScript" id="GDScript_03na7"]
-script/source = "extends Node
+[node name="SnakeCanvas" type="Node" node_paths=PackedStringArray("canvas_layers")]
+script = ExtResource("1_0sa11")
+canvas_layers = [NodePath("LiquidCrystal/TileMap"), NodePath("TileMap")]
 
-
-@onready
-var canvas = $\"..\"
-
-
-func _process(delta: float) -> void:
-	var snake : Array[Vector2i] = [
-		Vector2i(2, 3),
-		Vector2i(2, 2),
-		Vector2i(3, 2),
-		Vector2i(4, 2),
-		Vector2i(4, 3),
-		Vector2i(4, 4),
-		Vector2i(4, 5),
-		Vector2i(4, 6),
-		Vector2i(5, 6),
-		Vector2i(6, 6),
-		Vector2i(6, 5),
-	]
-	
-	canvas.draw_snake(snake)
-"
-
-[node name="Root" type="TextureRect"]
+[node name="Background" type="TextureRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_03na7")
-script = ExtResource("1_03na7")
 
-[node name="Canvas" type="TileMapLayer" parent="."]
+[node name="TileMap" type="TileMapLayer" parent="."]
 material = SubResource("ShaderMaterial_1n30v")
-position = Vector2(10, 10)
+position = Vector2(6.1213837, 15.537654)
 scale = Vector2(0.3, 0.3)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAIAAAAYAAAAAAAAAAIAABAYAA0AAAAAAAIAADAAAA0AAAAAAAIAACABAA0AAAABAAIAAAACAA0AAAABAAIAAAADAA0AAAABAAIAAAAEAA0AAAABAAIAAAAFAA0AAAABAAIAAAAGAA0AAAABAAIAAAAHAA0AAAABAAIAAAAIAA0AAAABAAIAAAAJAA0AAAABAAIAAAAKAA0AAAABAAIAAAALAA0AAAABAAIAAAAMAA0AAAABAAIAAAANAA0AAAABAAIAAAAOAA0AAAABAAIAAAAPAA0AAAACAAIAAAAQAA0AAAADAAEAAAARAA0AAAADAAEAAAASAA0AAAADAAEAAAATAA0AAAADAAEAAAAUAA0AAAADAAEAAAAVAA0AAAADAAEAAAAWAA0AAAACAAIAABAXAA0AAAABAAIAAAABAAAAAAABAAIAAAACAAAAAAABAAIAAAADAAAAAAABAAIAAAAEAAAAAAABAAIAAAAFAAAAAAABAAIAAAAGAAAAAAABAAIAAAAHAAAAAAABAAIAAAAIAAAAAAABAAIAAAAJAAAAAAABAAIAAAAKAAAAAAABAAIAAAALAAAAAAABAAIAAAAMAAAAAAABAAIAAAANAAAAAAABAAIAAAAOAAAAAAABAAIAAAAPAAAAAAABAAIAAAAQAAAAAAABAAIAAAARAAAAAAABAAIAAAASAAAAAAABAAIAAAATAAAAAAABAAIAAAAUAAAAAAABAAIAAAAVAAAAAAABAAIAAAAWAAAAAAABAAIAAAAXAAAAAAABAAIAAAAYAAEAAAABAAIAAFAYAAIAAAABAAIAAFAYAAMAAAABAAIAAFAYAAQAAAABAAIAAFAYAAUAAAABAAIAAFAYAAYAAAABAAIAAFAYAAcAAAABAAIAAFAYAAgAAAABAAIAAFAYAAkAAAABAAIAAFAYAAoAAAABAAIAAFAYAAsAAAABAAIAAFAYAAwAAAABAAIAAFAAAAEAAAABAAIAAFAAAAIAAAABAAIAAFAAAAMAAAABAAIAAFAAAAQAAAABAAIAAFAAAAUAAAABAAIAAFAAAAYAAAABAAIAAFAAAAcAAAABAAIAAFAAAAgAAAABAAIAAFAAAAkAAAABAAIAAFAAAAoAAAABAAIAAFAAAAsAAAABAAIAAFAAAAwAAAABAAIAAFALAAcAAAAAAAAAAAALAAkAAAABAAEAAAALAAYAAAABAAAAAAAMAAYAAAACAAAAAAANAAYAAAACAAAAAAAOAAYAAAACAAAAAAAPAAYAAAACAAAAAAAQAAYAAAABAAAAADAQAAUAAAAAAAEAACA=")
-tile_set = ExtResource("1_7yhko")
+tile_set = ExtResource("3_21pye")
 
-[node name="PostProcess" type="CanvasLayer" parent="."]
+[node name="Shadow" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 
-[node name="Overlay" type="ColorRect" parent="PostProcess"]
+[node name="Overlay" type="ColorRect" parent="Shadow"]
 material = SubResource("ShaderMaterial_03na7")
 anchors_preset = 15
 anchor_right = 1.0
@@ -79,13 +57,17 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="OnTop" type="CanvasLayer" parent="."]
+[node name="LiquidCrystal" type="CanvasLayer" parent="."]
 
-[node name="Canvas" type="TileMapLayer" parent="OnTop"]
+[node name="TileMap" type="TileMapLayer" parent="LiquidCrystal"]
 material = SubResource("ShaderMaterial_35kre")
 scale = Vector2(0.3, 0.3)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAIAAAAAAAEAAAABAAIAAFAAAAIAAAABAAIAAFAAAAMAAAABAAIAAFAAAAQAAAABAAIAAFAAAAUAAAABAAIAAFAAAAYAAAABAAIAAFAAAAcAAAABAAIAAFAAAAgAAAABAAIAAFAAAAkAAAABAAIAAFAAAAoAAAABAAIAAFAAAAsAAAABAAIAAFAAAAwAAAABAAIAAFAAAA0AAAAAAAIAACABAAAAAAABAAIAAAABAA0AAAABAAIAAAACAAAAAAABAAIAAAACAA0AAAABAAIAAAADAAAAAAABAAIAAAADAA0AAAABAAIAAAAEAAAAAAABAAIAAAAEAA0AAAABAAIAAAAFAAAAAAABAAIAAAAFAA0AAAABAAIAAAAGAAAAAAABAAIAAAAGAA0AAAABAAIAAAAHAAAAAAABAAIAAAAHAA0AAAABAAIAAAAIAAAAAAABAAIAAAAIAA0AAAABAAIAAAAJAAAAAAABAAIAAAAJAA0AAAABAAIAAAAKAAAAAAABAAIAAAAKAA0AAAABAAIAAAALAAAAAAABAAIAAAALAAYAAAABAAAAAAALAAcAAAAAAAAAAAALAAkAAAABAAEAAAALAA0AAAABAAIAAAAMAAAAAAABAAIAAAAMAAYAAAACAAAAAAAMAA0AAAABAAIAAAANAAAAAAABAAIAAAANAAYAAAACAAAAAAANAA0AAAABAAIAAAAOAAAAAAABAAIAAAAOAAYAAAACAAAAAAAOAA0AAAABAAIAAAAPAAAAAAABAAIAAAAPAAYAAAACAAAAAAAPAA0AAAACAAIAAAAQAAAAAAABAAIAAAAQAAUAAAAAAAEAACAQAAYAAAABAAAAADAQAA0AAAADAAEAAAARAAAAAAABAAIAAAARAA0AAAADAAEAAAASAAAAAAABAAIAAAASAA0AAAADAAEAAAATAAAAAAABAAIAAAATAA0AAAADAAEAAAAUAAAAAAABAAIAAAAUAA0AAAADAAEAAAAVAAAAAAABAAIAAAAVAA0AAAADAAEAAAAWAAAAAAABAAIAAAAWAA0AAAACAAIAABAXAAAAAAABAAIAAAAXAA0AAAABAAIAAAAYAAAAAAAAAAIAABAYAAEAAAABAAIAAFAYAAIAAAABAAIAAFAYAAMAAAABAAIAAFAYAAQAAAABAAIAAFAYAAUAAAABAAIAAFAYAAYAAAABAAIAAFAYAAcAAAABAAIAAFAYAAgAAAABAAIAAFAYAAkAAAABAAIAAFAYAAoAAAABAAIAAFAYAAsAAAABAAIAAFAYAAwAAAABAAIAAFAYAA0AAAAAAAIAADA=")
-tile_set = ExtResource("1_7yhko")
+tile_set = ExtResource("3_21pye")
 
-[node name="Test" type="Node" parent="."]
-script = SubResource("GDScript_03na7")
+[node name="ShadowEffect" type="Node" parent="." node_paths=PackedStringArray("canvas_layers")]
+script = ExtResource("5_uvag5")
+divergence_angle = 68.497
+divergence_offset = 16.7
+layers_scale = Vector2(0.3, 0.3)
+canvas_layers = [NodePath("../LiquidCrystal/TileMap"), NodePath("../TileMap")]

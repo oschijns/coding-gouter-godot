@@ -1,5 +1,5 @@
 @tool
-extends Node
+class_name ShadowEffect extends Node
 
 #region PROPERTIES
 
@@ -26,7 +26,7 @@ var layers_scale := Vector2.ONE:
 			layer.scale = value
 
 
-# List des calques a faire diverger
+# Liste des calques à faire diverger
 @export
 var canvas_layers: Array[TileMapLayer] = []
 
@@ -36,16 +36,16 @@ var canvas_layers: Array[TileMapLayer] = []
 #region PRIVATE METHODS
 
 func _diverge_layers() -> void:
-	# On ejecte les cas tordus qui nous embetent
+	# On éjecte les cas tordus qui nous embêtent
 	var count := canvas_layers.size()
 	if count <= 1:
 		printerr("No layers assigned, cannot compute divergence effect.")
 	else:
-		# On determine la distance entre chaque calque et la direction a appliquer
+		# On détermine la distance entre chaque calque et la direction à appliquer
 		var padding   := divergence_offset / (count - 1) as float
 		var direction := Vector2.from_angle(deg_to_rad(divergence_angle))
 
-		# On applique une translation a chaque calque sauf le premier
+		# On applique une translation à chaque calque sauf le premier
 		for i in range(1, count):
 			var layer := canvas_layers[i]
 			layer.transform.origin = direction * (padding * i as float)

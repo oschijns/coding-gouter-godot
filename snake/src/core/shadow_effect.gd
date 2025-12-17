@@ -1,6 +1,12 @@
 @tool
 class_name ShadowEffect extends Node
 
+
+"""
+	Script utilitaire qui permet de gérer l'effet d'ombre de l'écran LCD.
+"""
+
+
 #region PROPERTIES
 
 # Angle de divergence entre les calques

@@ -1,5 +1,9 @@
 shader_type canvas_item;
 
+/*
+	Effet graphique qui permet de floutter une texture.
+*/
+
 // rendu de l'écran avant application du shader
 // `filter_linear_mipmap` permet d'adoucir l'échantionnage
 uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear_mipmap;

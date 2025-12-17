@@ -1,5 +1,10 @@
 class_name Grid2D
 
+"""
+	Structure de données qui représente une 
+	grille 2D contenant des nombres entiers.
+"""
+
 #region PROPERTIES
 
 # Taille de la surface de jeu

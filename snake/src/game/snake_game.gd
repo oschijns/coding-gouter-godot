@@ -1,6 +1,11 @@
 class_name SnakeGame extends Node
 
 
+"""
+	Script principal permettant de gérer la logique du jeu.
+"""
+
+
 #region PROPERTIES
 
 # Canvas pour dessiner le jeu

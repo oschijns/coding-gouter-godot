@@ -1,5 +1,9 @@
 class_name SnakeCanvas extends Node
 
+"""
+	Canvas pour dessiner des tuiles à l'écran. 
+"""
+
 #region PROPERTIES
 
 # Taille de la surface de jeu

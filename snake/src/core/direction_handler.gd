@@ -1,8 +1,8 @@
 class_name DirectionHandler extends Node
 
 """
-	Permet de lire une direction à chaque frame mais en l'appliquant à une 
-	cadence régulière.
+	Permet de lire une direction à chaque frame 
+	mais en l'appliquant à une cadence régulière.
 """
 
 #region PROPERTIES

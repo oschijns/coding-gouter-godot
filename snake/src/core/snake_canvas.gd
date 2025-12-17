@@ -30,6 +30,9 @@ func draw_apple(coords: Vector2i) -> void:
 func draw_spike(coords: Vector2i) -> void:
 	_draw_tile(coords, SPIKE, 0)
 
+# Dessine une croix dans la grille
+func draw_cross(coords: Vector2i) -> void:
+	_draw_tile(coords, CROSS, 0)
 
 # Dessine un coeur dans la grille
 func draw_heart(coords: Vector2i) -> void:
@@ -58,17 +61,21 @@ func draw_snake(chain: Array[Vector2i]) -> void:
 
 		# Ici nous sommes garanti d'avoir une chaîne avec au moins deux élements.
 		# Nous avons simplement besoin de traîter la tête et la queue distinctement du reste du corps.
-		tile_pos  = chain[0]
-		tile_data = _pick_snake_tile_end(tile_pos, chain[1], SNAKE_HEAD)
+
+		# Dessine la queue
+		tile_pos  = chain[length - 1]
+		tile_data = _pick_snake_tile_end(tile_pos, chain[length - 2], SNAKE_TAIL)
 		_draw_tile2(tile_pos, tile_data)
 
+		# Dessine le corps
 		for index in range(1, length - 1):
 			tile_pos  = chain[index]
 			tile_data = _pick_snake_tile_middle(chain[index - 1], tile_pos, chain[index + 1])
 			_draw_tile2(tile_pos, tile_data)
 
-		tile_pos  = chain[length - 1]
-		tile_data = _pick_snake_tile_end(tile_pos, chain[length - 2], SNAKE_TAIL)
+		# Dessine la tête
+		tile_pos  = chain[0]
+		tile_data = _pick_snake_tile_end(tile_pos, chain[1], SNAKE_HEAD)
 		_draw_tile2(tile_pos, tile_data)
 
 

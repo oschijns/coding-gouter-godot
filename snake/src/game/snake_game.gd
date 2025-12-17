@@ -7,23 +7,30 @@ class_name SnakeGame extends Node
 @onready
 var canvas: SnakeCanvas = $SnakeCanvas
 
-# Métronome pour cadancer le jeu
+# Manager pour la direction
+@onready
+var direction_handler: DirectionHandler = $DirectionHandler
+
+# Métronome pour cadencer le jeu
 @onready
 var tick_rate: Timer = $TickRate
 
-# Deadzone pour joysticks
-const DEADZONE := 0.1
+# Drapeau pour indiquer si le jeu est perdu
+var game_over := false
 
-# Direction actuelle du serpent
-var current_direction: Vector2i = Vector2i.DOWN
+# Compteur de points
+var score := 0
 
 # Les positions occupées par le serpent
 var snake_positions: Array[Vector2i] = []
 
+# La position occupée par la pomme
+var apple_position := Vector2i.ZERO
+
 #endregion
 
 
-#region METHODS
+#region GODOT's METHODS
 
 # Fonction appelée au démarrage du jeu
 func _ready() -> void:
@@ -31,48 +38,79 @@ func _ready() -> void:
 	# - Positionner le serpent
 	# - Ajouter une pomme
 
+	var center := canvas.play_area.get_center()
+	snake_positions.push_back(center)
+	snake_positions.push_back(center + Vector2i.UP)
+	direction_handler.direction_current = Vector2i.DOWN
+
+	apple_position = _get_random_position()
+
 	print("Snake Game ready.")
 
 
 # Fonction appelée 60 fois par seconde
-func _process(delta: float) -> void:
-	pass
+#func _process(delta: float) -> void: pass
+
+#endregion
 
 
-# Une fois la direction lue à partir de la manette.
-# On la compare à la direction actuelle du serpent pour déterminer la direction 
-# qui sera effectivement appliquée.
-func _pick_direction() -> Vector2i:
+#region CALLBACK METHODS
 
-	# Obtenir la direction voulu par le joueur
-	var direction := _read_direction()
+# Appelé par le Timer TickRate
+func _on_tick() -> void:
 
-	# Le joueur n'a pas sélectionné de direction ou il a choisi une direction 
-	# strictement opposée à la direction précédente.
-	# => On conserve la direction précédente.
-	if (direction == Vector2i.ZERO 
-		or direction.x == -current_direction.x 
-		or direction.y == -current_direction.y
-	):
-		direction = current_direction
+	# Quelle direction suivre pour ce tick?
+	var direction := direction_handler.pull_direction()
 
-	return direction
+	# Où se trouve le serpent?
+	var head := snake_positions[0]
+	var next := head + direction
+
+	# Allons-nous nous mordre nous même?
+	# Allons-nous collisioner la bordure du terrain?
+	if next in snake_positions or not canvas.play_area.has_point(next):
+		game_over = true
+
+	# Allons-nous manger la pomme?
+	elif next == apple_position:
+		score += 1
+		apple_position = _get_random_position()
+
+	# Nous nous déplaçons vers une case vide
+	else:
+		snake_positions.pop_back()
+
+	# Fait avancer le serpent
+	snake_positions.push_front(next)
+
+	canvas.clear()
+	canvas.draw_snake(snake_positions)
+	canvas.draw_apple(apple_position)
+
+	if game_over:
+		_on_game_over()
+
+#endregion
 
 
-# Obtenir la direction voulu par le joueur
-func _read_direction() -> Vector2i:
-	var direction := Vector2i.ZERO
+#region PRIVATE METHODS
 
-	# Lire la direction du joystick sous forme d'un vecteur 2D [-1.0, 1.0]
-	var joystick := Input.get_vector("move_left", "move_right", "move_down", "move_up", DEADZONE)
-	if not joystick.is_zero_approx():
+# Renvoie une position aléatoire dans la zone de jeu
+func _get_random_position() -> Vector2i:
+	var area := canvas.play_area
+	return Vector2i(
+		randi_range(area.position.x, area.end.x),
+		randi_range(area.position.y, area.end.y)
+	)
 
-		# On veut prendre en compte l'axe principal
-		match joystick.abs().max_axis_index():
-			Vector2.AXIS_X: direction.x = sign(joystick.x)
-			Vector2.AXIS_Y: direction.y = sign(joystick.y)
+# Fonction a appeler pour terminer le jeu
+func _on_game_over() -> void:
+	print("GAME OVER")
 
-	return direction
+	for pos in snake_positions:
+		canvas.draw_cross(pos)
 
+	# On arrête d'actualiser le jeu
+	tick_rate.stop()
 
 #endregion

@@ -97,20 +97,20 @@ func draw_border() -> void:
 	var y1 := play_area.end.y
 	
 	# On trace les deux lignes horizontales en même temps
-	for x in range(x0 + 1, x1 - 1):
+	for x in range(x0 + 1, x1):
 		_draw_tile(Vector2i(x, y0), BORDER_LINE, RotLine.H)
 		_draw_tile(Vector2i(x, y1), BORDER_LINE, RotLine.H)
 
 	# On trace les deux lignes verticales en même temps
-	for y in range(y0 + 1, y1 - 1):
+	for y in range(y0 + 1, y1):
 		_draw_tile(Vector2i(x0, y), BORDER_LINE, RotLine.V)
 		_draw_tile(Vector2i(x1, y), BORDER_LINE, RotLine.V)
 
 	# On trace les quatres coins
-	_draw_tile(Vector2i(x0, y0), BORDER_BEND, RotBend.NW)
-	_draw_tile(Vector2i(x1, y0), BORDER_BEND, RotBend.NE)
-	_draw_tile(Vector2i(x0, y1), BORDER_BEND, RotBend.SW)
-	_draw_tile(Vector2i(x1, y1), BORDER_BEND, RotBend.SE)
+	_draw_tile(Vector2i(x0, y0), BORDER_BEND, RotBend.NE)
+	_draw_tile(Vector2i(x1, y0), BORDER_BEND, RotBend.NW)
+	_draw_tile(Vector2i(x0, y1), BORDER_BEND, RotBend.SE)
+	_draw_tile(Vector2i(x1, y1), BORDER_BEND, RotBend.SW)
 
 #endregion
 

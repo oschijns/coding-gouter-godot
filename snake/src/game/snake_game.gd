@@ -89,6 +89,7 @@ func _on_tick() -> void:
 	snake_positions.push_front(next)
 
 	canvas.clear()
+	canvas.draw_border()
 	canvas.draw_snake(snake_positions)
 	canvas.draw_apple(apple_position)
 

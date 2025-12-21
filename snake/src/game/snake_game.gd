@@ -39,22 +39,15 @@ var apple_position := Vector2i.ZERO
 
 # Fonction appelée au démarrage du jeu
 func _ready() -> void:
-	# Initialisation du jeu:
-	# - Positionner le serpent
-	# - Ajouter une pomme
-
-	var center := canvas.play_area.get_center()
-	snake_positions.push_back(center)
-	snake_positions.push_back(center + Vector2i.UP)
-	direction_handler.direction_current = Vector2i.DOWN
-
-	apple_position = _get_random_position()
-
-	print("Snake Game ready.")
+	_on_game_start()
 
 
-# Fonction appelée 60 fois par seconde
-#func _process(delta: float) -> void: pass
+# Fonction appelée ~60 fois par seconde
+func _process(_delta: float) -> void:
+
+	# Réinitialize le jeu
+	if game_over and Input.is_action_just_pressed("restrart_game"):
+		_on_game_start()
 
 #endregion
 
@@ -88,6 +81,7 @@ func _on_tick() -> void:
 	# Fait avancer le serpent
 	snake_positions.push_front(next)
 
+	# On redessine tout le jeu
 	canvas.clear()
 	canvas.draw_border()
 	canvas.draw_snake(snake_positions)
@@ -101,22 +95,51 @@ func _on_tick() -> void:
 
 #region PRIVATE METHODS
 
-# Renvoie une position aléatoire dans la zone de jeu
-func _get_random_position() -> Vector2i:
-	var area := canvas.play_area
-	return Vector2i(
-		randi_range(area.position.x, area.end.x),
-		randi_range(area.position.y, area.end.y)
-	)
+# Fonction à appeler pour démarrer le jeu
+func _on_game_start() -> void:
+	# Initialisation du jeu:
+	# - Positionner le serpent
+	# - Ajouter une pomme
 
-# Fonction a appeler pour terminer le jeu
+	# Réinitialize l'état du jeu si nous recommençons une partie
+	game_over = false
+	score = 0
+
+	# Positionnement du serpent
+	var center := canvas.play_area.get_center()
+	snake_positions.clear()
+	snake_positions.push_back(center)
+	snake_positions.push_back(center + Vector2i.UP)
+	direction_handler.init_direction(Vector2i.DOWN)
+
+	# Positionnement d'une pomme
+	apple_position = _get_random_position()
+
+	# Le jeu peut démarrer
+	tick_rate.start()
+	print("Snake Game ready.")
+
+
+# Fonction à appeler pour terminer le jeu
 func _on_game_over() -> void:
-	print("GAME OVER")
+	print("GAME OVER score: %d" % score)
 
+	# On affiche une croix sur toutes les positions 
+	# qui étaient occupées par le serpent.
 	for pos in snake_positions:
 		canvas.draw_cross(pos)
 
 	# On arrête d'actualiser le jeu
 	tick_rate.stop()
+
+
+# Renvoie une position aléatoire dans la zone de jeu
+func _get_random_position() -> Vector2i:
+	var area := canvas.play_area
+	return Vector2i(
+		randi_range(area.position.x + 1, area.end.x - 1),
+		randi_range(area.position.y + 1, area.end.y - 1)
+	)
+
 
 #endregion

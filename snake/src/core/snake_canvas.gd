@@ -8,7 +8,7 @@ class_name SnakeCanvas extends Node
 
 # Taille de la surface de jeu
 @export
-var play_area := Rect2i(0, 0, 23, 12)
+var play_area := Rect2i(1, 1, 23, 12)
 
 # Liste des calques sur lequels écrire les tuiles
 @export
@@ -91,18 +91,18 @@ func draw_border() -> void:
 	# - quatres coins
 
 	# On récupère les limites de la zone de jeu
-	var x0 := play_area.position.x
+	var x0 := play_area.position.x - 1
 	var x1 := play_area.end.x
-	var y0 := play_area.position.y
+	var y0 := play_area.position.y - 1
 	var y1 := play_area.end.y
 	
 	# On trace les deux lignes horizontales en même temps
-	for x in range(x0 + 1, x1):
+	for x in range(x0, x1):
 		_draw_tile(Vector2i(x, y0), BORDER_LINE, RotLine.H)
 		_draw_tile(Vector2i(x, y1), BORDER_LINE, RotLine.H)
 
 	# On trace les deux lignes verticales en même temps
-	for y in range(y0 + 1, y1):
+	for y in range(y0, y1):
 		_draw_tile(Vector2i(x0, y), BORDER_LINE, RotLine.V)
 		_draw_tile(Vector2i(x1, y), BORDER_LINE, RotLine.V)
 

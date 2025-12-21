@@ -27,7 +27,7 @@ var direction_next    := Vector2i.ZERO
 #region GODOT's METHODS
 
 # Fonction appelée 60 fois par seconde
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Une fois la direction lue à partir de la manette.
 	# On la compare à la direction actuelle du serpent pour déterminer la direction 
 	# qui sera effectivement appliquée.
@@ -45,7 +45,7 @@ func _process(delta: float) -> void:
 #endregion
 
 
-#region PRIVATE METHODS
+#region PUBLIC METHODS
 
 # À appeler lorsqu'on veut obtenir une nouvelle direction à appliquer au serpent
 func pull_direction() -> Vector2i:
@@ -53,6 +53,14 @@ func pull_direction() -> Vector2i:
 	if direction_next != Vector2i.ZERO:
 		direction_current = direction_next
 	return direction_current
+
+# À appeler pour définir une direction initiale
+func init_direction(init: Vector2i) -> void:
+	if init.length_squared() == 1:
+		direction_current = init
+		direction_next    = init
+	else:
+		printerr("Provided initial direction is not normalized")
 
 #endregion
 

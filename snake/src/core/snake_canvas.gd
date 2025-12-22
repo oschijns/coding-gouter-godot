@@ -130,7 +130,7 @@ func _draw_tile2(coords: Vector2i, tile: Vector3i) -> void:
 		layer.set_cell(coords, 0, pos, tile.z)
 
 
-# Détermine la tuile a utiliser
+# Détermine la tuile à utiliser
 static func _pick_snake_tile_end(previous: Vector2i, next: Vector2i, tile: Vector2i) -> Vector3i:
 	match _orientation(next - previous):
 		Orient.EAST : return Vector3i(tile.x, tile.y, RotEnd.EAST )
@@ -140,7 +140,7 @@ static func _pick_snake_tile_end(previous: Vector2i, next: Vector2i, tile: Vecto
 	return Vector3i(CROSS.x, CROSS.y, 0)
 
 
-# Détermine la tuile a utiliser
+# Détermine la tuile à utiliser
 static func _pick_snake_tile_middle(previous: Vector2i, current: Vector2i, next: Vector2i) -> Vector3i:
 	# Détermine l'orientation du corps du serpent d'élement a élement
 	var orient1 := _orientation(current - previous)

@@ -22,7 +22,7 @@ var tick_rate: Timer = $TickRate
 
 # Speaker pour jouer des bips sonores
 @onready
-var speaker: AudioStreamPlayer = $Speaker
+var speaker: Speaker = $Speaker
 
 
 # Drapeau pour indiquer si le jeu est perdu
@@ -51,8 +51,12 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 
 	# Réinitialize le jeu
-	if game_over and Input.is_action_just_pressed("restrart_game"):
+	if game_over and Input.is_action_just_pressed(&"restrart_game"):
 		_on_game_start()
+
+	# Quitte le jeu
+	if Input.is_action_just_pressed(&"quit_game"):
+		get_tree().quit()
 
 #endregion
 

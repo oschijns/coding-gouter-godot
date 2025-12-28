@@ -7,6 +7,7 @@ const SAMPLE_HERTZ := 22050
 var playback: AudioStreamPlayback = null
 
 
+# Initialize le speaker
 func _ready():
 	# Le "mix rate" doit être défini avant de jouer le son 
 	stream.mix_rate = float(SAMPLE_HERTZ)
@@ -18,12 +19,13 @@ func _ready():
 	playback = get_stream_playback()
 
 
-func play_beep(freq: float = 440.0, duration: float = 0.05):
+# Joue un simple bip sonore avec la note sélectionnée et la durée choisie en secondes
+func play_beep(freq: float = 440.0, duration: float = 0.075):
 	var frames := int(float(SAMPLE_HERTZ) * duration)
 	var step   := freq / float(SAMPLE_HERTZ)
 
 	for i in frames:
-		# Converti le signal en signal rectangulaire
+		# Génère un signal rectangulaire
 		var sample := 1.0 if fmod(float(i) * step, 1.0) < 0.5 else -1.0
 
 		# Les trames audio sont stéréo, donc nous poussons deux nombres en même temps

@@ -20,6 +20,11 @@ var direction_handler: DirectionHandler = $DirectionHandler
 @onready
 var tick_rate: Timer = $TickRate
 
+# Speaker pour jouer des bips sonores
+@onready
+var speaker: AudioStreamPlayer = $Speaker
+
+
 # Drapeau pour indiquer si le jeu est perdu
 var game_over := false
 
@@ -73,6 +78,8 @@ func _on_tick() -> void:
 	elif next == apple_position:
 		score += 1
 		apple_position = _get_random_position()
+		# Jouer un son lorsqu'on mange la pomme
+		speaker.play_beep()
 
 	# Nous nous déplaçons vers une case vide
 	else:

@@ -8,10 +8,10 @@ class_name DirectionHandler extends Node
 #region PROPERTIES
 
 # Actions à lire
-@export var move_up    := &"move_up"
-@export var move_down  := &"move_down"
-@export var move_left  := &"move_left"
-@export var move_right := &"move_right"
+@export var move_up    := &"player1_up"
+@export var move_down  := &"player1_down"
+@export var move_left  := &"player1_left"
+@export var move_right := &"player1_right"
 
 # Deadzone du joystick
 @export_range(0.0, 1.0)

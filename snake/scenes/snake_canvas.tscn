@@ -1,13 +1,13 @@
-[gd_scene load_steps=11 format=4 uid="uid://w20jnr3tbfbe"]
+[gd_scene load_steps=14 format=3 uid="uid://w20jnr3tbfbe"]
 
 [ext_resource type="Script" uid="uid://bgkpqp8brt3ea" path="res://src/core/snake_canvas.gd" id="1_0sa11"]
 [ext_resource type="Shader" uid="uid://cpbl7p04e2uib" path="res://shader/colorize.gdshader" id="2_eg20l"]
 [ext_resource type="TileSet" uid="uid://c8178sxe31um0" path="res://assets/tileset.tres" id="3_21pye"]
 [ext_resource type="Shader" uid="uid://vhjgi6hq76ma" path="res://shader/blur.gdshader" id="4_eeg3h"]
-[ext_resource type="Script" uid="uid://3d6w7314eob0" path="res://src/core/shadow_effect.gd" id="5_uvag5"]
+[ext_resource type="Script" uid="uid://3d6w7314eob0" path="res://src/core/layer_handler.gd" id="5_uvag5"]
 
 [sub_resource type="Gradient" id="Gradient_35kre"]
-colors = PackedColorArray(0.31121767, 0.34710258, 0.2457757, 1, 1, 1, 0.88235295, 1)
+colors = PackedColorArray(0.4570955, 0.50393456, 0.3726726, 1, 1, 1, 0.88235295, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_03na7"]
 gradient = SubResource("Gradient_35kre")
@@ -21,13 +21,33 @@ shader_parameter/color = Color(0, 0, 0, 0.4862745)
 shader = ExtResource("4_eeg3h")
 shader_parameter/blur_amount = 1.1970000568575
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f0sol"]
+shader = ExtResource("2_eg20l")
+shader_parameter/color = Color(0.14474139, 0.10559251, 0.37179098, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nip15"]
+shader = ExtResource("2_eg20l")
+shader_parameter/color = Color(0, 0.23137255, 0.14901961, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_40tsk"]
+shader = ExtResource("2_eg20l")
+shader_parameter/color = Color(0.42352942, 0.16078432, 0, 1)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_35kre"]
 shader = ExtResource("2_eg20l")
 shader_parameter/color = Color(0, 0, 0, 1)
 
-[node name="SnakeCanvas" type="Node" node_paths=PackedStringArray("canvas_layers")]
+[node name="SnakeCanvas" type="Node" node_paths=PackedStringArray("layer_handler")]
 script = ExtResource("1_0sa11")
-canvas_layers = [NodePath("LiquidCrystal/TileMap"), NodePath("TileMap")]
+layer_handler = NodePath("LayerHandler")
+
+[node name="LayerHandler" type="Node" parent="." node_paths=PackedStringArray("foreground_layers", "background_layer")]
+script = ExtResource("5_uvag5")
+foreground_layers = [NodePath("../LiquidCrystal/TileMap0"), NodePath("../LiquidCrystal/TileMap1"), NodePath("../LiquidCrystal/TileMap2"), NodePath("../LiquidCrystal/TileMap3")]
+background_layer = NodePath("../TileMapBG")
+divergence_angle = 68.497
+divergence_offset = 16.7
+layers_scale = Vector2(0.3, 0.3)
 
 [node name="Background" type="TextureRect" parent="."]
 anchors_preset = 15
@@ -37,11 +57,10 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_03na7")
 
-[node name="TileMap" type="TileMapLayer" parent="."]
+[node name="TileMapBG" type="TileMapLayer" parent="."]
 material = SubResource("ShaderMaterial_1n30v")
 position = Vector2(6.1213837, 15.537654)
 scale = Vector2(0.3, 0.3)
-tile_map_data = PackedByteArray("AAAYAAAAAAAAAAIAABAYAA0AAAAAAAIAADAAAA0AAAAAAAIAACABAA0AAAABAAIAAAACAA0AAAABAAIAAAADAA0AAAABAAIAAAAEAA0AAAABAAIAAAAFAA0AAAABAAIAAAAGAA0AAAABAAIAAAAHAA0AAAABAAIAAAAIAA0AAAABAAIAAAAJAA0AAAABAAIAAAAKAA0AAAABAAIAAAALAA0AAAABAAIAAAAMAA0AAAABAAIAAAANAA0AAAABAAIAAAAOAA0AAAABAAIAAAAPAA0AAAABAAIAAAAQAA0AAAABAAIAAAARAA0AAAABAAIAAAASAA0AAAABAAIAAAATAA0AAAABAAIAAAAUAA0AAAABAAIAAAAVAA0AAAABAAIAAAAWAA0AAAABAAIAAAAXAA0AAAABAAIAAAABAAAAAAABAAIAAAACAAAAAAABAAIAAAADAAAAAAABAAIAAAAEAAAAAAABAAIAAAAFAAAAAAABAAIAAAAGAAAAAAABAAIAAAAHAAAAAAABAAIAAAAIAAAAAAABAAIAAAAJAAAAAAABAAIAAAAKAAAAAAABAAIAAAALAAAAAAABAAIAAAAMAAAAAAABAAIAAAANAAAAAAABAAIAAAAOAAAAAAABAAIAAAAPAAAAAAABAAIAAAAQAAAAAAABAAIAAAARAAAAAAABAAIAAAASAAAAAAABAAIAAAATAAAAAAABAAIAAAAUAAAAAAABAAIAAAAVAAAAAAABAAIAAAAWAAAAAAABAAIAAAAXAAAAAAABAAIAAAAYAAEAAAABAAIAAFAYAAIAAAABAAIAAFAYAAMAAAABAAIAAFAYAAQAAAABAAIAAFAYAAUAAAABAAIAAFAYAAYAAAABAAIAAFAYAAcAAAABAAIAAFAYAAgAAAABAAIAAFAYAAkAAAABAAIAAFAYAAoAAAABAAIAAFAYAAsAAAABAAIAAFAYAAwAAAABAAIAAFAAAAwAAAABAAIAAFAAAAEAAAABAAIAAFAAAAIAAAABAAIAAFAAAAMAAAABAAIAAFAAAAQAAAABAAIAAFAAAAUAAAABAAIAAFAAAAYAAAABAAIAAFAAAAcAAAABAAIAAFAAAAgAAAABAAIAAFAAAAkAAAABAAIAAFAAAAoAAAABAAIAAFAAAAsAAAABAAIAAFAAAAAAAAAAAAIAAAA=")
 tile_set = ExtResource("3_21pye")
 
 [node name="Shadow" type="CanvasLayer" parent="."]
@@ -59,15 +78,22 @@ size_flags_vertical = 3
 
 [node name="LiquidCrystal" type="CanvasLayer" parent="."]
 
-[node name="TileMap" type="TileMapLayer" parent="LiquidCrystal"]
-material = SubResource("ShaderMaterial_35kre")
+[node name="TileMap3" type="TileMapLayer" parent="LiquidCrystal"]
+material = SubResource("ShaderMaterial_f0sol")
 scale = Vector2(0.3, 0.3)
-tile_map_data = PackedByteArray("AAAAAAAAAAAAAAIAAAAAAAEAAAABAAIAAFAAAAIAAAABAAIAAFAAAAMAAAABAAIAAFAAAAQAAAABAAIAAFAAAAUAAAABAAIAAFAAAAYAAAABAAIAAFAAAAcAAAABAAIAAFAAAAgAAAABAAIAAFAAAAkAAAABAAIAAFAAAAoAAAABAAIAAFAAAAsAAAABAAIAAFAAAAwAAAABAAIAAFAAAA0AAAAAAAIAACABAAAAAAABAAIAAAABAA0AAAABAAIAAAACAAAAAAABAAIAAAACAA0AAAABAAIAAAADAAAAAAABAAIAAAADAA0AAAABAAIAAAAEAAAAAAABAAIAAAAEAA0AAAABAAIAAAAFAAAAAAABAAIAAAAFAA0AAAABAAIAAAAGAAAAAAABAAIAAAAGAA0AAAABAAIAAAAHAAAAAAABAAIAAAAHAA0AAAABAAIAAAAIAAAAAAABAAIAAAAIAA0AAAABAAIAAAAJAAAAAAABAAIAAAAJAA0AAAABAAIAAAAKAAAAAAABAAIAAAAKAA0AAAABAAIAAAALAAAAAAABAAIAAAALAA0AAAABAAIAAAAMAAAAAAABAAIAAAAMAA0AAAABAAIAAAANAAAAAAABAAIAAAANAA0AAAABAAIAAAAOAAAAAAABAAIAAAAOAA0AAAABAAIAAAAPAAAAAAABAAIAAAAQAAAAAAABAAIAAAARAAAAAAABAAIAAAASAAAAAAABAAIAAAATAAAAAAABAAIAAAAUAAAAAAABAAIAAAAVAAAAAAABAAIAAAAWAAAAAAABAAIAAAAXAAAAAAABAAIAAAAXAA0AAAABAAIAAAAYAAAAAAAAAAIAABAYAAEAAAABAAIAAFAYAAIAAAABAAIAAFAYAAMAAAABAAIAAFAYAAQAAAABAAIAAFAYAAUAAAABAAIAAFAYAAYAAAABAAIAAFAYAAcAAAABAAIAAFAYAAgAAAABAAIAAFAYAAkAAAABAAIAAFAYAAoAAAABAAIAAFAYAAsAAAABAAIAAFAYAAwAAAABAAIAAFAYAA0AAAAAAAIAADAPAA0AAAABAAIAAAAQAA0AAAABAAIAAAARAA0AAAABAAIAAAASAA0AAAABAAIAAAATAA0AAAABAAIAAAAUAA0AAAABAAIAAAAVAA0AAAABAAIAAAAWAA0AAAABAAIAAAA=")
 tile_set = ExtResource("3_21pye")
 
-[node name="ShadowEffect" type="Node" parent="." node_paths=PackedStringArray("canvas_layers")]
-script = ExtResource("5_uvag5")
-divergence_angle = 68.497
-divergence_offset = 16.7
-layers_scale = Vector2(0.3, 0.3)
-canvas_layers = [NodePath("../LiquidCrystal/TileMap"), NodePath("../TileMap")]
+[node name="TileMap2" type="TileMapLayer" parent="LiquidCrystal"]
+material = SubResource("ShaderMaterial_nip15")
+scale = Vector2(0.3, 0.3)
+tile_set = ExtResource("3_21pye")
+
+[node name="TileMap1" type="TileMapLayer" parent="LiquidCrystal"]
+material = SubResource("ShaderMaterial_40tsk")
+scale = Vector2(0.3, 0.3)
+tile_set = ExtResource("3_21pye")
+
+[node name="TileMap0" type="TileMapLayer" parent="LiquidCrystal"]
+material = SubResource("ShaderMaterial_35kre")
+scale = Vector2(0.3, 0.3)
+tile_set = ExtResource("3_21pye")

@@ -94,9 +94,10 @@ func _on_tick() -> void:
 
 	# On redessine tout le jeu
 	canvas.clear()
-	canvas.draw_border()
+	canvas.draw_play_area_border()
 	canvas.draw_snake(snake_positions)
 	canvas.draw_apple(apple_position)
+	canvas.draw_text(Vector2i(2, 0), "score %d" % score)
 
 	if game_over:
 		_on_game_over()
@@ -139,6 +140,8 @@ func _on_game_over() -> void:
 	# qui étaient occupées par le serpent.
 	for pos in snake_positions:
 		canvas.draw_cross(pos)
+
+	canvas.draw_text(Vector2i(2, 0), "game over")
 
 	# On arrête d'actualiser le jeu
 	tick_rate.stop()

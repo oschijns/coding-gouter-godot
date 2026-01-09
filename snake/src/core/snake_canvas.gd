@@ -6,10 +6,6 @@ class_name SnakeCanvas extends Node
 
 #region PROPERTIES
 
-# Taille de la surface de jeu
-@export
-var play_area := Rect2i(1, 1, 23, 12)
-
 @export
 var layer_handler: LayerHandler
 
@@ -66,10 +62,10 @@ func draw_border(rect: Rect2i, color: int = 0, thick := false) -> void:
 	# - quatres coins
 
 	# On récupère les limites de la zone de jeu
-	var x0 := rect.position.x - 1
-	var x1 := rect.end.x
-	var y0 := rect.position.y - 1
-	var y1 := rect.end.y
+	var x0 := rect.position.x
+	var x1 := rect.end.x - 1
+	var y0 := rect.position.y
+	var y1 := rect.end.y - 1
 
 	var tiles := SNAKE if thick else ARROW
 	var line := tiles[IdxTile.LINE]
@@ -90,11 +86,6 @@ func draw_border(rect: Rect2i, color: int = 0, thick := false) -> void:
 	layer_handler.draw_tile(Vector2i(x1, y0), bend, RotBend.NW, color)
 	layer_handler.draw_tile(Vector2i(x0, y1), bend, RotBend.SE, color)
 	layer_handler.draw_tile(Vector2i(x1, y1), bend, RotBend.SW, color)
-
-
-# Dessine une bordure autour de la zone de jeu
-func draw_play_area_border(color: int = 0, thick := false) -> void:
-	draw_border(play_area, color, thick)
 
 
 # Affiche du texte à l'écran

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 68 36" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <bx:grid x="0" y="0" width="64" height="32"/>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="32" y1="0" x2="32" y2="32" id="gradient-0">
+      <stop offset="0" style="stop-color: rgb(255, 255, 255);"/>
+      <stop offset="1" style="stop-color: rgb(92, 92, 92);"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="32" rx="7.08" ry="7.08" style="stroke-linecap: round; stroke-linejoin: round; stroke-width: 3px; stroke-dashoffset: -27px; stroke-dasharray: 11, 4; fill: url(&quot;#gradient-0&quot;); stroke: rgb(0, 0, 0);"/>
+</svg>

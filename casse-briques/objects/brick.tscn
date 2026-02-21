@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bb6vluq3csn8d"]
+
+[ext_resource type="Script" uid="uid://7s5fusu8xfxi" path="res://src/brick.gd" id="1_hbwgr"]
+[ext_resource type="Texture2D" uid="uid://dhqfukjwjijb" path="res://assets/brick.svg" id="1_lex57"]
+[ext_resource type="Shader" uid="uid://yrojaa2iarsm" path="res://shaders/colorize.gdshader" id="2_7nfhm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xhqq"]
+size = Vector2(64, 32)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2u2la"]
+shader = ExtResource("2_7nfhm")
+shader_parameter/color1 = Vector4(0, 0, 0, 1)
+shader_parameter/color2 = Vector4(1, 1, 1, 1)
+
+[node name="Brick" type="StaticBody2D" unique_id=528412859]
+script = ExtResource("1_hbwgr")
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1831558099]
+shape = SubResource("RectangleShape2D_8xhqq")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1715066463]
+material = SubResource("ShaderMaterial_2u2la")
+texture = ExtResource("1_lex57")

@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://dr280knxhurja"]
+
+[ext_resource type="Script" uid="uid://ctight8dl5oet" path="res://src/board.gd" id="1_646yn"]
+[ext_resource type="Script" uid="uid://dfowceokb21w" path="res://src/dead_zone.gd" id="3_liekj"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nhohd"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_646yn"]
+
+[node name="Board" type="Control" unique_id=1830092162]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_646yn")
+
+[node name="Background" type="ColorRect" parent="." unique_id=355354040]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1932978863]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = -64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.19077674, 0.19077677, 1)
+
+[node name="Game" type="Node2D" parent="." unique_id=2071213688]
+position = Vector2(320, 320)
+
+[node name="Camera" type="Camera2D" parent="Game" unique_id=2071652111]
+
+[node name="Walls" type="StaticBody2D" parent="Game" unique_id=1408302230]
+
+[node name="Top" type="CollisionShape2D" parent="Game/Walls" unique_id=463752989]
+position = Vector2(0, -256)
+rotation = 3.1415927
+shape = SubResource("WorldBoundaryShape2D_nhohd")
+
+[node name="Left" type="CollisionShape2D" parent="Game/Walls" unique_id=1196334599]
+position = Vector2(-256, 0)
+rotation = 1.5707964
+shape = SubResource("WorldBoundaryShape2D_nhohd")
+
+[node name="Right" type="CollisionShape2D" parent="Game/Walls" unique_id=769244580]
+position = Vector2(256, 0)
+rotation = -1.5707964
+shape = SubResource("WorldBoundaryShape2D_nhohd")
+
+[node name="DeadZone" type="Area2D" parent="Game" unique_id=1587936661]
+script = ExtResource("3_liekj")
+
+[node name="Bottom" type="CollisionShape2D" parent="Game/DeadZone" unique_id=842333682]
+position = Vector2(0, 256)
+shape = SubResource("WorldBoundaryShape2D_646yn")

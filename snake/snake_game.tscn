@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cdkefwfbqjo6a"]
+[gd_scene format=3 uid="uid://cdkefwfbqjo6a"]
 
 [ext_resource type="Script" uid="uid://dhno3v7cagacx" path="res://snake_game.gd" id="1_0lev8"]
 [ext_resource type="PackedScene" uid="uid://w20jnr3tbfbe" path="res://scenes/snake_canvas.tscn" id="2_74sqb"]
@@ -7,19 +7,19 @@
 
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_708mk"]
 
-[node name="SnakeGame" type="Node"]
+[node name="SnakeGame" type="Node" unique_id=1090533530]
 script = ExtResource("1_0lev8")
 
-[node name="SnakeCanvas" parent="." instance=ExtResource("2_74sqb")]
+[node name="SnakeCanvas" parent="." unique_id=2030504610 instance=ExtResource("2_74sqb")]
 
-[node name="DirectionHandler" type="Node" parent="."]
+[node name="DirectionHandler" type="Node" parent="." unique_id=1699902656]
 script = ExtResource("3_74sqb")
 
-[node name="TickRate" type="Timer" parent="."]
+[node name="TickRate" type="Timer" parent="." unique_id=1698877997]
 wait_time = 0.5
 autostart = true
 
-[node name="Speaker" type="AudioStreamPlayer" parent="."]
+[node name="Speaker" type="AudioStreamPlayer" parent="." unique_id=1256018053]
 stream = SubResource("AudioStreamGenerator_708mk")
 volume_db = -12.041
 script = ExtResource("4_ngdui")

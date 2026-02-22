@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="GameBrickConfig" format=3 uid="uid://h5etlgkcyg3b"]
+
+[ext_resource type="Material" uid="uid://v6ypl7cuh2su" path="res://objects/brick3/material_1.tres" id="1_fph27"]
+[ext_resource type="Material" uid="uid://cvo3ws8mn2ei0" path="res://objects/brick3/material_2.tres" id="2_ktbnw"]
+[ext_resource type="Material" uid="uid://byd4da8qkem1u" path="res://objects/brick3/material_3.tres" id="3_mfwo6"]
+[ext_resource type="Material" uid="uid://bwboc27chrlrq" path="res://objects/brick3/material_4.tres" id="4_lilkt"]
+[ext_resource type="Material" uid="uid://boc3witohwd81" path="res://objects/brick3/material_5.tres" id="5_gmtyc"]
+[ext_resource type="Script" uid="uid://ba1p2uxubjlgs" path="res://src/brick_config.gd" id="6_mg3n3"]
+
+[resource]
+script = ExtResource("6_mg3n3")
+hit_points = 5
+renders = Array[ShaderMaterial]([ExtResource("1_fph27"), ExtResource("2_ktbnw"), ExtResource("3_mfwo6"), ExtResource("4_lilkt"), ExtResource("5_gmtyc")])
+metadata/_custom_type_script = "uid://ba1p2uxubjlgs"

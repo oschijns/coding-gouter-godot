@@ -2,8 +2,11 @@
 
 [ext_resource type="Script" uid="uid://ctight8dl5oet" path="res://src/board.gd" id="1_646yn"]
 [ext_resource type="Script" uid="uid://dfowceokb21w" path="res://src/dead_zone.gd" id="3_liekj"]
+[ext_resource type="PackedScene" uid="uid://ba5gsnlrxcw84" path="res://objects/brick1/prefab.tscn" id="3_mumcj"]
 [ext_resource type="PackedScene" uid="uid://tbeo1ur1irdx" path="res://objects/paddle.tscn" id="3_tyihr"]
 [ext_resource type="PackedScene" uid="uid://vkl4ias0agvc" path="res://objects/ball.tscn" id="4_mumcj"]
+[ext_resource type="PackedScene" uid="uid://cuc3d1rxsti3g" path="res://objects/brick2/prefab.tscn" id="4_sm4o3"]
+[ext_resource type="PackedScene" uid="uid://blch55t0s2jrv" path="res://objects/brick3/prefab.tscn" id="5_u5e2k"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nhohd"]
 
@@ -64,14 +67,126 @@ rotation = -1.5707964
 shape = SubResource("WorldBoundaryShape2D_nhohd")
 
 [node name="DeadZone" type="Area2D" parent="Game" unique_id=1587936661]
+monitorable = false
 script = ExtResource("3_liekj")
 
 [node name="Bottom" type="CollisionShape2D" parent="Game/DeadZone" unique_id=842333682]
-position = Vector2(0, 256)
+position = Vector2(0, 350)
 shape = SubResource("WorldBoundaryShape2D_646yn")
+
+[node name="BrickLayer0" type="Node2D" parent="Game" unique_id=99819951]
+position = Vector2(0, -40)
+
+[node name="Brick0" parent="Game/BrickLayer0" unique_id=1763587033 instance=ExtResource("3_mumcj")]
+position = Vector2(-175, 0)
+
+[node name="Brick1" parent="Game/BrickLayer0" unique_id=783146408 instance=ExtResource("3_mumcj")]
+position = Vector2(-105, 0)
+
+[node name="Brick2" parent="Game/BrickLayer0" unique_id=747819549 instance=ExtResource("3_mumcj")]
+position = Vector2(-35, 0)
+
+[node name="Brick3" parent="Game/BrickLayer0" unique_id=1847978952 instance=ExtResource("3_mumcj")]
+position = Vector2(35, 0)
+
+[node name="Brick4" parent="Game/BrickLayer0" unique_id=1076658722 instance=ExtResource("3_mumcj")]
+position = Vector2(105, 0)
+
+[node name="Brick5" parent="Game/BrickLayer0" unique_id=1688563264 instance=ExtResource("3_mumcj")]
+position = Vector2(175, 0)
+
+[node name="BrickLayer1" type="Node2D" parent="Game" unique_id=821924917]
+position = Vector2(0, -80)
+
+[node name="Brick0" parent="Game/BrickLayer1" unique_id=2054943048 instance=ExtResource("3_mumcj")]
+position = Vector2(-210, 0)
+
+[node name="Brick1" parent="Game/BrickLayer1" unique_id=1603991124 instance=ExtResource("3_mumcj")]
+position = Vector2(-140, 0)
+
+[node name="Brick2" parent="Game/BrickLayer1" unique_id=1025297453 instance=ExtResource("3_mumcj")]
+position = Vector2(-70, 0)
+
+[node name="Brick3" parent="Game/BrickLayer1" unique_id=1227000028 instance=ExtResource("3_mumcj")]
+
+[node name="Brick4" parent="Game/BrickLayer1" unique_id=1642629048 instance=ExtResource("3_mumcj")]
+position = Vector2(70, 0)
+
+[node name="Brick5" parent="Game/BrickLayer1" unique_id=1771377102 instance=ExtResource("3_mumcj")]
+position = Vector2(140, 0)
+
+[node name="Brick6" parent="Game/BrickLayer1" unique_id=1038534160 instance=ExtResource("3_mumcj")]
+position = Vector2(210, 0)
+
+[node name="BrickLayer2" type="Node2D" parent="Game" unique_id=1514726814]
+position = Vector2(0, -120)
+
+[node name="Brick0" parent="Game/BrickLayer2" unique_id=1670182946 instance=ExtResource("3_mumcj")]
+position = Vector2(-175, 0)
+
+[node name="Brick1" parent="Game/BrickLayer2" unique_id=566959091 instance=ExtResource("3_mumcj")]
+position = Vector2(-105, 0)
+
+[node name="Brick2" parent="Game/BrickLayer2" unique_id=1258809427 instance=ExtResource("3_mumcj")]
+position = Vector2(-35, 0)
+
+[node name="Brick3" parent="Game/BrickLayer2" unique_id=464710498 instance=ExtResource("3_mumcj")]
+position = Vector2(35, 0)
+
+[node name="Brick4" parent="Game/BrickLayer2" unique_id=363257760 instance=ExtResource("3_mumcj")]
+position = Vector2(105, 0)
+
+[node name="Brick5" parent="Game/BrickLayer2" unique_id=1302142295 instance=ExtResource("3_mumcj")]
+position = Vector2(175, 0)
+
+[node name="BrickLayer3" type="Node2D" parent="Game" unique_id=1874259025]
+position = Vector2(0, -160)
+
+[node name="Brick0" parent="Game/BrickLayer3" unique_id=165231372 instance=ExtResource("4_sm4o3")]
+position = Vector2(-210, 0)
+
+[node name="Brick1" parent="Game/BrickLayer3" unique_id=1946249377 instance=ExtResource("4_sm4o3")]
+position = Vector2(-140, 0)
+
+[node name="Brick2" parent="Game/BrickLayer3" unique_id=848150608 instance=ExtResource("4_sm4o3")]
+position = Vector2(-70, 0)
+
+[node name="Brick3" parent="Game/BrickLayer3" unique_id=381839539 instance=ExtResource("4_sm4o3")]
+
+[node name="Brick4" parent="Game/BrickLayer3" unique_id=1698542394 instance=ExtResource("4_sm4o3")]
+position = Vector2(70, 0)
+
+[node name="Brick5" parent="Game/BrickLayer3" unique_id=789775017 instance=ExtResource("4_sm4o3")]
+position = Vector2(140, 0)
+
+[node name="Brick6" parent="Game/BrickLayer3" unique_id=1697399038 instance=ExtResource("4_sm4o3")]
+position = Vector2(210, 0)
+
+[node name="BrickLayer4" type="Node2D" parent="Game" unique_id=1354772256]
+position = Vector2(0, -200)
+
+[node name="Brick0" parent="Game/BrickLayer4" unique_id=1824549300 instance=ExtResource("5_u5e2k")]
+position = Vector2(-175, 0)
+
+[node name="Brick1" parent="Game/BrickLayer4" unique_id=796799470 instance=ExtResource("5_u5e2k")]
+position = Vector2(-105, 0)
+
+[node name="Brick2" parent="Game/BrickLayer4" unique_id=95410320 instance=ExtResource("5_u5e2k")]
+position = Vector2(-34, 0)
+
+[node name="Brick3" parent="Game/BrickLayer4" unique_id=1838251609 instance=ExtResource("5_u5e2k")]
+position = Vector2(36, 0)
+
+[node name="Brick4" parent="Game/BrickLayer4" unique_id=553537586 instance=ExtResource("5_u5e2k")]
+position = Vector2(106, 0)
+
+[node name="Brick5" parent="Game/BrickLayer4" unique_id=1570300683 instance=ExtResource("5_u5e2k")]
+position = Vector2(176, 0)
 
 [node name="Paddle" parent="Game" unique_id=296727898 instance=ExtResource("3_tyihr")]
 position = Vector2(0, 231)
 
 [node name="Ball" parent="Game" unique_id=1974748383 instance=ExtResource("4_mumcj")]
 position = Vector2(0, 188)
+
+[connection signal="ball_lost" from="Game/DeadZone" to="Game/Paddle" method="grab_ball"]

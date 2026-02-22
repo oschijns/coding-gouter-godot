@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://deb58wcr0oocu"]
+
+[ext_resource type="Shader" uid="uid://yrojaa2iarsm" path="res://shaders/colorize.gdshader" id="1_nxbky"]
+
+[resource]
+shader = ExtResource("1_nxbky")
+shader_parameter/color1 = Color(0, 0, 0.6666667, 1)
+shader_parameter/color2 = Color(1, 1, 1, 1)

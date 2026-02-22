@@ -14,7 +14,7 @@ var hit_points: int = 1
 # Séquence de couleur à afficher sur les briques 
 # lorsqu'elles perdent des points de vie.
 @export
-var renders: Array[Render] = []
+var renders: Array[ShaderMaterial] = []
 
 #endregion
 
@@ -49,28 +49,11 @@ func verify() -> bool:
 	
 
 # Obtient une paire de couleurs
-func get_render(i: int) -> Render:
+func get_render(i: int) -> ShaderMaterial:
 	if i < self.renders.size():
 		return self.renders[i]
 	else:
 		printerr("Invalid render index %d" % i)
 		return null
-
-#endregion
-
-
-#region SUB-CLASS
-
-# Défini un rendu pour une brique
-class Render:
-	extends Resource
-
-	# Texture à afficher sur la brique
-	@export
-	var texture: Texture2D
-
-	# Shader pour altérer le rendu de la brique
-	@export
-	var material: ShaderMaterial
 
 #endregion

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://blch55t0s2jrv"]
+
+[ext_resource type="Script" uid="uid://7s5fusu8xfxi" path="res://src/brick.gd" id="1_dm255"]
+[ext_resource type="Resource" uid="uid://h5etlgkcyg3b" path="res://objects/brick3/config.tres" id="2_3pq2g"]
+[ext_resource type="Material" uid="uid://boc3witohwd81" path="res://objects/brick3/material_5.tres" id="3_hgi24"]
+[ext_resource type="Texture2D" uid="uid://dhqfukjwjijb" path="res://assets/brick.svg" id="4_b03nf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xhqq"]
+size = Vector2(64, 32)
+
+[node name="Brick" type="StaticBody2D" unique_id=528412859]
+script = ExtResource("1_dm255")
+config = ExtResource("2_3pq2g")
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1831558099]
+shape = SubResource("RectangleShape2D_8xhqq")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1715066463]
+material = ExtResource("3_hgi24")
+texture = ExtResource("4_b03nf")

@@ -34,23 +34,12 @@ func _physics_process(delta: float) -> void:
 		# Si un objet a été touché, on vérifie sa nature
 		var other := hit.get_collider()
 
-		# Si il s'agit de la raquette
-		if other is GamePaddle:
-			var paddle : GamePaddle = other
-
-			# La raquette peut dévier la trajectoire de la balle 
-			# end fonction d'où elle atterrie sur la raquette.
-			var hit_pos := hit.get_position() - self.global_position
-			var ang := paddle.get_deviation_angle_for(hit_pos.x)
-			print("angle: ", ang)
-			new_dir = new_dir.rotated(ang)
-
 		# Si il s'agit d'une brique
-		elif other is GameBrick:
+		if other is GameBrick:
 			var brick : GameBrick = other
 			brick.on_hit()
 
-		# Sinon il s'agit d'un mur
+		# Sinon il s'agit d'un mur ou de la raquette
 
 		# Après avoir déterminé la nouvelle trajectoire à suivre, 
 		# nous pouvons l'appliquer à la balle.
@@ -61,26 +50,16 @@ func _physics_process(delta: float) -> void:
 
 #region CUSTOM METHODS
 
-# On détache la balle de son parent actuelle, 
-# pour la rattacher à un nouveau parent.
-func reattach_to(node: CanvasItem) -> void:
-	var parent := self.get_parent()
-	if node != null and parent != null:
-		var pos := self.global_position
-		parent.remove_child(self)
-		node.add_child(self)
-		self.set_global_position(pos)
-
-
 # Stop la balle
 func reset() -> void:
+	self.set_velocity(Vector2.ZERO)
 	self.set_physics_process(false)
 	self.flag_stopped = true
 
 
 # Lance la balle
 func launch(dir: Vector2) -> void:
-	self.velocity = dir.normalized() * self.speed
+	self.set_velocity(dir.normalized() * self.speed)
 	self.set_physics_process(true)
 	self.flag_stopped = false
 

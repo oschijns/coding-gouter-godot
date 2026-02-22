@@ -66,13 +66,18 @@ func _physics_process(delta: float) -> void:
 		pos.x = self.move_mouse
 	else:
 		pos.x += self.move_dir * (self.speed * delta)
-		
+
 	# Si on a dépassé les limites du terrain,
 	# Il faut recorriger la position.
 	var limit := self.limit_range * 0.5
 	pos.x = clampf(pos.x, -limit, limit)
 
 	self.set_position(pos)
+
+	# Si la balle est sur la raquette, faire en sorte qu'elle suive la raquette
+	if self.ball.flag_stopped:
+		var place := self.paddle_size.y * -0.5 - self.ball.radius
+		self.ball.set_position(Vector2(pos.x, pos.y + place))
 
 
 # Quand le joueur appuie sur la touche "ESC" on veut quitter le jeu
@@ -100,27 +105,11 @@ func _notification(what: int) -> void:
 func grab_ball() -> void:
 	self.ball.reset()
 
-	# On fixe la balle sur la raquette
-	var place := self.paddle_size.y * -0.5 - self.ball.radius
-	self.ball.reattach_to(self)
-	self.ball.set_position(Vector2(0.0, place))
-
 
 # Pose la balle sur la raquette pour être lancée
 func launch_ball() -> void:
 	# On détache la balle de la raquette
-	self.ball.reattach_to(self.get_parent())
-
 	var dir := Vector2(self.move_dir, 1.0).normalized()
 	self.ball.launch(dir)
-
-
-# À partir d'un point le long de la raquette,
-# obtenir un angle de déviation en radians.
-func get_deviation_angle_for(other_pos: float) -> float:
-	var half     := self.paddle_size.x * 0.5
-	var relative := clampf(other_pos - self.position.x, -half, half)
-	var ratio    := inverse_lerp(-half, half, relative) * 2.0 - 1.0
-	return deg_to_rad(self.deviation_angle) * ratio
 
 #endregion

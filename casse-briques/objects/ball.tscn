@@ -2,9 +2,15 @@
 
 [ext_resource type="Texture2D" uid="uid://octx7avaghw5" path="res://assets/ball.svg" id="1_ct1s3"]
 [ext_resource type="Script" uid="uid://dyam0j741ve45" path="res://src/ball.gd" id="1_n16w4"]
+[ext_resource type="Shader" uid="uid://yrojaa2iarsm" path="res://shaders/colorize.gdshader" id="2_3d6a7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5oij1"]
 radius = 16.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wfynf"]
+shader = ExtResource("2_3d6a7")
+shader_parameter/color1 = Color(0.83746713, 0.30110854, 5.7756904e-07, 1)
+shader_parameter/color2 = Color(1, 1, 0.28235295, 1)
 
 [node name="Ball" type="CharacterBody2D" unique_id=1974748383]
 script = ExtResource("1_n16w4")
@@ -13,4 +19,5 @@ script = ExtResource("1_n16w4")
 shape = SubResource("CircleShape2D_5oij1")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=334759761]
+material = SubResource("ShaderMaterial_wfynf")
 texture = ExtResource("1_ct1s3")

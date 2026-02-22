@@ -46,13 +46,12 @@ func on_hit() -> void:
 	# Sinon on change la couleur de la brique
 	else:
 		# on essaye d'obtenir un nouveau rendu pour la brique
-		var render := self.config.get_render(self.hit_points)
+		var render := self.config.get_render(self.hit_points - 1)
 		if render == null:
 			printerr("No render found")
 			return
 
-		# On applique la texture et le matériaau à la brique
-		sprite.texture  = render.texture
-		sprite.material = render.material
+		# On applique le matériau à la brique
+		sprite.material = render
 
 #endregion

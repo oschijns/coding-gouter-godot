@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="GameBrickConfig" format=3 uid="uid://pjitfeh2ehjy"]
+
+[ext_resource type="Material" uid="uid://dg5jc1su0niaf" path="res://objects/brick1/material_1.tres" id="1_yik1w"]
+[ext_resource type="Script" uid="uid://ba1p2uxubjlgs" path="res://src/brick_config.gd" id="2_ije87"]
+
+[resource]
+script = ExtResource("2_ije87")
+renders = Array[ShaderMaterial]([ExtResource("1_yik1w")])
+metadata/_custom_type_script = "uid://ba1p2uxubjlgs"

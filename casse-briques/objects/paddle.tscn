@@ -2,10 +2,16 @@
 
 [ext_resource type="Script" uid="uid://c4o4ntbd85r3h" path="res://src/paddle.gd" id="1_76rfi"]
 [ext_resource type="Texture2D" uid="uid://r226qdoc73yu" path="res://assets/paddle.svg" id="1_lg73m"]
+[ext_resource type="Shader" uid="uid://yrojaa2iarsm" path="res://shaders/colorize.gdshader" id="2_ssnb4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_at8fd"]
 radius = 16.0
 height = 128.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cuc2q"]
+shader = ExtResource("2_ssnb4")
+shader_parameter/color1 = Color(0, 0.11764706, 0.67058825, 1)
+shader_parameter/color2 = Color(0.43529412, 0.7137255, 1, 1)
 
 [node name="Paddle" type="AnimatableBody2D" unique_id=296727898]
 script = ExtResource("1_76rfi")
@@ -16,4 +22,5 @@ rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_at8fd")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1052017839]
+material = SubResource("ShaderMaterial_cuc2q")
 texture = ExtResource("1_lg73m")

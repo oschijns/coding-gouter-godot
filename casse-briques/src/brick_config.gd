@@ -4,6 +4,8 @@ class_name GameBrickConfig extends Resource
 # de configuration entre plusieurs instances.
 
 
+#region ATTRIBUTES
+
 # Nombre de fois que la brique peut-être touchée avant d'être détruite
 @export_range(1.0, 3.0, 1.0, "or_greater")
 var hit_points: int = 1
@@ -14,6 +16,10 @@ var hit_points: int = 1
 @export
 var renders: Array[Render] = []
 
+#endregion
+
+
+#region CUSTOM METHODS
 
 # Vérifie que la resource est correctement configurée
 # Si c'est le cas, on renvoie "vrai", sinon on renvoie "faux"
@@ -50,6 +56,10 @@ func get_render(i: int) -> Render:
 		printerr("Invalid render index %d" % i)
 		return null
 
+#endregion
+
+
+#region SUB-CLASS
 
 # Défini un rendu pour une brique
 class Render:
@@ -62,3 +72,5 @@ class Render:
 	# Shader pour altérer le rendu de la brique
 	@export
 	var material: ShaderMaterial
+
+#endregion

@@ -9,6 +9,7 @@ height = 128.0
 
 [node name="Paddle" type="AnimatableBody2D" unique_id=296727898]
 script = ExtResource("1_76rfi")
+limit_range = 384.0
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=1027189101]
 rotation = -1.5707964

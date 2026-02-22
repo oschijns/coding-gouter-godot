@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bvk0gqo5qnxqn"]
+
+[ext_resource type="Script" uid="uid://cs2xu2j7b8mym" path="res://src/bricks.gd" id="1_m2y11"]
+
+[node name="Bricks" type="Node2D" unique_id=327232951]
+script = ExtResource("1_m2y11")

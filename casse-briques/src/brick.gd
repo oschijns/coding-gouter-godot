@@ -1,6 +1,8 @@
 class_name GameBrick extends StaticBody2D
 
 
+#region ATTRIBUTES
+
 # Configuration des briques
 @export
 var config: GameBrickConfig
@@ -11,6 +13,10 @@ var sprite: Sprite2D = $Sprite
 # Nombre de coups restants avant que cette brique disparaîsse
 var hit_points: int = 1
 
+#endregion
+
+
+#region GODOT's METHODS
 
 # Au démarrage, on récupère des infos à partir de la configuration
 func _ready() -> void:
@@ -23,7 +29,10 @@ func _ready() -> void:
 	# On initialise le nombre de points de vie de la brique
 	self.hit_points = self.config.hit_points
 
+#endregion
 
+
+#region CUSTOM METHODS
 
 # Que faire lorsque la brique est touchée par la balle ?
 func on_hit() -> void:
@@ -45,3 +54,5 @@ func on_hit() -> void:
 		# On applique la texture et le matériaau à la brique
 		sprite.texture  = render.texture
 		sprite.material = render.material
+
+#endregion

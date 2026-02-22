@@ -1,6 +1,10 @@
 class_name GameBall extends CharacterBody2D
 
 
+# Signal émit lorsque la balle rebondi
+signal ball_bounce
+
+
 #region ATTRIBUTES
 
 # Vitesse de la balle
@@ -40,6 +44,7 @@ func _physics_process(delta: float) -> void:
 			brick.on_hit()
 
 		# Sinon il s'agit d'un mur ou de la raquette
+		self.emit_signal(&"ball_bounce")
 
 		# Après avoir déterminé la nouvelle trajectoire à suivre, 
 		# nous pouvons l'appliquer à la balle.

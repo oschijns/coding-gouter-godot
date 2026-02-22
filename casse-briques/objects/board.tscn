@@ -7,10 +7,13 @@
 [ext_resource type="PackedScene" uid="uid://vkl4ias0agvc" path="res://objects/ball.tscn" id="4_mumcj"]
 [ext_resource type="PackedScene" uid="uid://cuc3d1rxsti3g" path="res://objects/brick2/prefab.tscn" id="4_sm4o3"]
 [ext_resource type="PackedScene" uid="uid://blch55t0s2jrv" path="res://objects/brick3/prefab.tscn" id="5_u5e2k"]
+[ext_resource type="Script" uid="uid://jmxj0r0xydai" path="res://src/speaker.gd" id="8_u5e2k"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nhohd"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_646yn"]
+
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_u5e2k"]
 
 [node name="Board" type="Control" unique_id=1830092162]
 layout_mode = 3
@@ -189,4 +192,10 @@ position = Vector2(0, 231)
 [node name="Ball" parent="Game" unique_id=1974748383 instance=ExtResource("4_mumcj")]
 position = Vector2(0, 188)
 
+[node name="GameSpeaker" type="AudioStreamPlayer" parent="." unique_id=772991559]
+stream = SubResource("AudioStreamGenerator_u5e2k")
+volume_db = -30.0
+script = ExtResource("8_u5e2k")
+
 [connection signal="ball_lost" from="Game/DeadZone" to="Game/Paddle" method="grab_ball"]
+[connection signal="ball_bounce" from="Game/Ball" to="GameSpeaker" method="_on_ball_bounce"]

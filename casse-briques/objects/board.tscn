@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://dr280knxhurja"]
 
 [ext_resource type="Script" uid="uid://ctight8dl5oet" path="res://src/board.gd" id="1_646yn"]
+[ext_resource type="Shader" uid="uid://b7ti3rddwdq0a" path="res://shaders/background.gdshader" id="2_p1kro"]
+[ext_resource type="Texture2D" uid="uid://djgit8scx0ry2" path="res://assets/background.svg" id="3_27nve"]
 [ext_resource type="Script" uid="uid://dfowceokb21w" path="res://src/dead_zone.gd" id="3_liekj"]
 [ext_resource type="PackedScene" uid="uid://ba5gsnlrxcw84" path="res://objects/brick1/prefab.tscn" id="3_mumcj"]
 [ext_resource type="PackedScene" uid="uid://tbeo1ur1irdx" path="res://objects/paddle.tscn" id="3_tyihr"]
@@ -8,6 +10,20 @@
 [ext_resource type="PackedScene" uid="uid://cuc3d1rxsti3g" path="res://objects/brick2/prefab.tscn" id="4_sm4o3"]
 [ext_resource type="PackedScene" uid="uid://blch55t0s2jrv" path="res://objects/brick3/prefab.tscn" id="5_u5e2k"]
 [ext_resource type="Script" uid="uid://jmxj0r0xydai" path="res://src/speaker.gd" id="8_u5e2k"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u5e2k"]
+shader = ExtResource("2_p1kro")
+shader_parameter/velocity = Vector2(0.185, -0.11)
+shader_parameter/color = Color(0.21630645, 0.08565778, 0.41319206, 1)
+shader_parameter/albedo = ExtResource("3_27nve")
+shader_parameter/scaling = Vector2(4.15, 3.955)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p1kro"]
+shader = ExtResource("2_p1kro")
+shader_parameter/velocity = Vector2(0, -0.015)
+shader_parameter/color = Color(0.021108558, 0.11012704, 0.20509577, 1)
+shader_parameter/albedo = ExtResource("3_27nve")
+shader_parameter/scaling = Vector2(1, 1)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nhohd"]
 
@@ -27,6 +43,7 @@ size_flags_vertical = 3
 script = ExtResource("1_646yn")
 
 [node name="Background" type="ColorRect" parent="." unique_id=355354040]
+material = SubResource("ShaderMaterial_u5e2k")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,6 +53,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="PlayArea" type="ColorRect" parent="." unique_id=1932978863]
+material = SubResource("ShaderMaterial_p1kro")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
